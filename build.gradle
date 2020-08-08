@@ -1,0 +1,78 @@
+import java.time.Duration
+
+plugins {
+	//id 'org.springframework.boot' version '2.3.2.RELEASE'
+	//id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+    id "io.franzbecker.gradle-lombok" version "4.0.0"
+}
+
+apply plugin: "idea"
+group = 'com.example'
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+task packageDistribution(type: Zip) {
+    archiveFileName = "geektrust"
+    destinationDirectory = file("$buildDir/dist")
+
+    from "$buildDir/toArchive"
+}
+
+jar {
+
+    archiveBaseName = 'geektrust' //Please do not change this final artifact name
+    archiveVersion = null   //Please do not change this final artifact version
+    version = null   //Please do not change this final artifact version
+
+    manifest {
+        attributes 'Main-Class' : 'com.example.geektrust.TameOfThroneApplication' //Change this to the main class of your program which will be executed
+    }
+    // To create a single jar with all dependencies.
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+}
+
+ext {
+	buildId = System.currentTimeMillis()
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	//compileOnly 'org.projectlombok:lombok'
+	//annotationProcessor 'org.projectlombok:lombok'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.11.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.0'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0-M1'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.7.0-M1'
+    //testCompile group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.7.0-M1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.7.0-M1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0-M1'
+    testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+
+
+}
+
+test {
+    useJUnitPlatform()
+	testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

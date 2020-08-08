@@ -1,0 +1,26 @@
+[
+  {
+    "kingdom": "LAND",
+    "emblem": "PANDA"
+  },
+  {
+    "kingdom": "SPACE",
+    "emblem": "GORILLA"
+  },
+  {
+    "kingdom": "WATER",
+    "emblem": "OCTOPUS"
+  },
+  {
+    "kingdom": "ICE",
+    "emblem": "MAMMOTH"
+  },
+  {
+    "kingdom": "AIR",
+    "emblem": "OWL"
+  },
+  {
+    "kingdom": "FIRE",
+    "emblem": "DRAGON"
+  }
+]
